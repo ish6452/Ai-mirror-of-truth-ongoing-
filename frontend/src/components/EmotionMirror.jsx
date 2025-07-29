@@ -237,24 +237,43 @@ const EmotionMirror = () => {
 
             <div className="relative">
               <div className="bg-slate-900 rounded-lg overflow-hidden aspect-video relative">
-                <video
-                  ref={videoRef}
-                  className="w-full h-full object-cover"
-                  muted
-                  playsInline
-                  style={{ transform: 'scaleX(-1)' }} // Mirror effect
-                />
-                <canvas
-                  ref={canvasRef}
-                  className="absolute top-0 left-0 w-full h-full pointer-events-none"
-                  style={{ transform: 'scaleX(-1)' }}
-                />
+                {isDemoMode ? (
+                  // Demo mode display
+                  <div className="w-full h-full bg-gradient-to-br from-blue-900 to-purple-900 flex items-center justify-center relative">
+                    <div className="text-center text-white">
+                      <div className="text-8xl mb-4">👤</div>
+                      <p className="text-lg mb-2">Demo Mode Active</p>
+                      <p className="text-sm opacity-75">Simulating emotion detection</p>
+                    </div>
+                    <div className="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm">
+                      LIVE DEMO
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <video
+                      ref={videoRef}
+                      className="w-full h-full object-cover"
+                      muted
+                      playsInline
+                      style={{ transform: 'scaleX(-1)' }} // Mirror effect
+                    />
+                    <canvas
+                      ref={canvasRef}
+                      className="absolute top-0 left-0 w-full h-full pointer-events-none"
+                      style={{ transform: 'scaleX(-1)' }}
+                    />
+                  </>
+                )}
                 
                 {!isStreaming && (
                   <div className="absolute inset-0 flex items-center justify-center bg-slate-800 bg-opacity-50">
                     <div className="text-center text-white">
                       <Camera className="w-16 h-16 mx-auto mb-4 opacity-50" />
                       <p className="text-lg">Camera is off</p>
+                      {cameraError && (
+                        <p className="text-sm text-red-300 mt-2">Camera not available</p>
+                      )}
                     </div>
                   </div>
                 )}
