@@ -4,6 +4,7 @@ import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { Camera, CameraOff, Sparkles, Heart, Zap } from 'lucide-react';
 import mockData from '../data/mock';
+import * as faceapi from 'face-api.js';
 
 const EmotionMirror = () => {
   const videoRef = useRef(null);
