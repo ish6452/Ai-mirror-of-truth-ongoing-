@@ -121,6 +121,7 @@ const EmotionMirror = () => {
 
   const startCamera = async () => {
     try {
+      setCameraError('');
       const stream = await navigator.mediaDevices.getUserMedia({ 
         video: { width: 640, height: 480 } 
       });
@@ -129,6 +130,7 @@ const EmotionMirror = () => {
         videoRef.current.srcObject = stream;
         videoRef.current.play();
         setIsStreaming(true);
+        setIsDemoMode(false);
         
         // Set canvas dimensions to match video
         videoRef.current.addEventListener('loadedmetadata', () => {
@@ -140,8 +142,18 @@ const EmotionMirror = () => {
       }
     } catch (error) {
       console.error('Error accessing camera:', error);
-      alert('Could not access camera. Please check permissions.');
+      setCameraError(error.message);
+      
+      // Fallback to demo mode if camera access fails
+      startDemoMode();
     }
+  };
+
+  const startDemoMode = () => {
+    setIsStreaming(true);
+    setIsDemoMode(true);
+    setCameraError('');
+    console.log('Starting demo mode with simulated emotions');
   };
 
   const stopCamera = () => {
