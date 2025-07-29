@@ -127,6 +127,14 @@ const EmotionMirror = () => {
         videoRef.current.srcObject = stream;
         videoRef.current.play();
         setIsStreaming(true);
+        
+        // Set canvas dimensions to match video
+        videoRef.current.addEventListener('loadedmetadata', () => {
+          if (canvasRef.current) {
+            canvasRef.current.width = videoRef.current.videoWidth;
+            canvasRef.current.height = videoRef.current.videoHeight;
+          }
+        });
       }
     } catch (error) {
       console.error('Error accessing camera:', error);
