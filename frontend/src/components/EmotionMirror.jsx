@@ -290,12 +290,18 @@ const EmotionMirror = () => {
               </div>
 
               {/* Camera Controls */}
-              <div className="mt-4 flex justify-center">
+              <div className="mt-4 flex justify-center gap-3">
                 {!isStreaming ? (
-                  <Button onClick={startCamera} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg flex items-center gap-2">
-                    <Camera className="w-5 h-5" />
-                    Start Mirror
-                  </Button>
+                  <>
+                    <Button onClick={startCamera} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg flex items-center gap-2">
+                      <Camera className="w-5 h-5" />
+                      Start Mirror
+                    </Button>
+                    <Button onClick={startDemoMode} variant="outline" className="px-6 py-3 rounded-lg flex items-center gap-2">
+                      <Sparkles className="w-5 h-5" />
+                      Try Demo
+                    </Button>
+                  </>
                 ) : (
                   <Button onClick={stopCamera} variant="outline" className="px-6 py-3 rounded-lg flex items-center gap-2">
                     <CameraOff className="w-5 h-5" />
