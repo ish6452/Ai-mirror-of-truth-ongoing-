@@ -388,6 +388,11 @@ const EmotionMirror = () => {
         {/* Footer */}
         <div className="text-center mt-8 text-slate-500 text-sm">
           <p>✨ Your emotions are processed locally in your browser - completely private ✨</p>
+          {cameraError && (
+            <p className="text-orange-600 mt-2">
+              📱 No camera detected? Try the <span className="font-semibold">Demo Mode</span> to experience emotion detection!
+            </p>
+          )}
         </div>
       </div>
     </div>
