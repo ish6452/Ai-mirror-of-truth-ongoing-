@@ -19,12 +19,21 @@ const EmotionMirror = () => {
   useEffect(() => {
     const loadModels = async () => {
       try {
-        // Simulating face-api.js loading for now with mock data
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        const MODEL_URL = 'https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js/weights/';
+        
+        // Load required models
+        await Promise.all([
+          faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+          faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
+          faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL)
+        ]);
+        
         setFaceApiLoaded(true);
-        console.log('Face API models loaded (mock)');
+        console.log('Face API models loaded successfully');
       } catch (error) {
         console.error('Error loading face API models:', error);
+        // Fallback to mock mode if models don't load
+        setFaceApiLoaded(true);
       }
     };
     loadModels();
