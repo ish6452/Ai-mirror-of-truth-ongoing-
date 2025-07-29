@@ -39,24 +39,77 @@ const EmotionMirror = () => {
     loadModels();
   }, []);
 
-  // Mock emotion detection - will be replaced with real face-api.js
+  // Real-time emotion detection
   useEffect(() => {
     let intervalId;
-    if (isStreaming && faceApiLoaded) {
-      intervalId = setInterval(() => {
-        // Mock emotion cycling for demo
-        const emotions = Object.keys(mockData.emotionTips);
-        const randomEmotion = emotions[Math.floor(Math.random() * emotions.length)];
-        const confidence = Math.random() * 0.4 + 0.6; // 60-100% confidence
-        
-        setCurrentEmotion(randomEmotion);
-        setEmotionConfidence(confidence);
-        
-        // Get random tip for the emotion
-        const tips = mockData.emotionTips[randomEmotion];
-        const randomTip = tips[Math.floor(Math.random() * tips.length)];
-        setCurrentTip(randomTip);
-      }, 3000);
+    if (isStreaming && faceApiLoaded && videoRef.current) {
+      const detectEmotions = async () => {
+        try {
+          const detections = await faceapi
+            .detectAllFaces(videoRef.current, new faceapi.TinyFaceDetectorOptions())
+            .withFaceExpressions()
+            .withFaceLandmarks();
+
+          if (detections.length > 0) {
+            const expressions = detections[0].expressions;
+            
+            // Find the emotion with highest confidence
+            let maxEmotion = 'neutral';
+            let maxConfidence = 0;
+            
+            Object.keys(expressions).forEach(emotion => {
+              if (expressions[emotion] > maxConfidence) {
+                maxConfidence = expressions[emotion];
+                maxEmotion = emotion;
+              }
+            });
+
+            // Map face-api.js emotions to our emotion set
+            const emotionMap = {
+              'happy': 'happy',
+              'sad': 'sad', 
+              'angry': 'angry',
+              'surprised': 'surprised',
+              'fearful': 'fearful',
+              'disgusted': 'disgusted',
+              'neutral': 'neutral'
+            };
+
+            const mappedEmotion = emotionMap[maxEmotion] || 'neutral';
+            
+            // Only update if confidence is above threshold
+            if (maxConfidence > 0.3) {
+              setCurrentEmotion(mappedEmotion);
+              setEmotionConfidence(maxConfidence);
+              
+              // Get random tip for the emotion
+              const tips = mockData.emotionTips[mappedEmotion];
+              const randomTip = tips[Math.floor(Math.random() * tips.length)];
+              setCurrentTip(randomTip);
+            }
+
+            // Draw detection results on canvas
+            if (canvasRef.current) {
+              const canvas = canvasRef.current;
+              const displaySize = { width: canvas.width, height: canvas.height };
+              faceapi.matchDimensions(canvas, displaySize);
+              
+              const resizedDetections = faceapi.resizeResults(detections, displaySize);
+              const ctx = canvas.getContext('2d');
+              ctx.clearRect(0, 0, canvas.width, canvas.height);
+              
+              // Draw face detection box
+              faceapi.draw.drawDetections(canvas, resizedDetections);
+              // Draw facial landmarks
+              faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
+            }
+          }
+        } catch (error) {
+          console.error('Error during emotion detection:', error);
+        }
+      };
+
+      intervalId = setInterval(detectEmotions, 1000); // Check every second
     }
     
     return () => {
