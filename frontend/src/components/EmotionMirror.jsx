@@ -163,8 +163,10 @@ const EmotionMirror = () => {
       videoRef.current.srcObject = null;
     }
     setIsStreaming(false);
+    setIsDemoMode(false);
     setCurrentEmotion('neutral');
     setCurrentTip('');
+    setCameraError('');
   };
 
   const getEmotionColor = (emotion) => {
