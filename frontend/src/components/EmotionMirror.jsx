@@ -14,6 +14,8 @@ const EmotionMirror = () => {
   const [emotionConfidence, setEmotionConfidence] = useState(0);
   const [currentTip, setCurrentTip] = useState('');
   const [faceApiLoaded, setFaceApiLoaded] = useState(false);
+  const [isDemoMode, setIsDemoMode] = useState(false);
+  const [cameraError, setCameraError] = useState('');
 
   // Load face-api.js models
   useEffect(() => {
