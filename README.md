@@ -1,23 +1,23 @@
-🎭 AI Mirror of Truth — Ongoing Project
+AI Mirror of Truth — Ongoing Project
 
 A real-time AI-powered emotional reflection system that uses your webcam to detect facial expressions and provide instant motivational feedback.
 This project is built using face-api.js, running completely inside the browser — no backend required.
 
-🚀 Features
+ Features
 
-🎥 Real-time face detection
+ Real-time face detection
 
-😃 Emotion recognition (happy, sad, angry, surprised, fearful, disgusted, neutral)
+ Emotion recognition (happy, sad, angry, surprised, fearful, disgusted, neutral)
 
-💡 Motivational suggestions based on emotion
+ Motivational suggestions based on emotion
 
-🧠 Powered by face-api.js (TensorFlow.js)
+ Powered by face-api.js (TensorFlow.js)
 
-🌐 100% client-side — no server needed
+ 100% client-side — no server needed
 
-🎨 Gradient UI with live canvas overlays
+ Gradient UI with live canvas overlays
 
-🧠 Technologies Used
+ Technologies Used
 Frontend
 
 HTML5
@@ -36,4 +36,3 @@ Tiny Face Detector Model
 
 Face Expression Model
 
-(Optional) Age/Gender Model
