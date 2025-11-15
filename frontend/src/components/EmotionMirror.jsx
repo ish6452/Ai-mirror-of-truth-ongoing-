@@ -42,7 +42,7 @@ const EmotionMirror = () => {
   }, []);
 
   // Real-time emotion detection (with demo mode fallback)
-  useEffect(() => {
+  useEffect(() => {       
     let intervalId;
     if (isStreaming && faceApiLoaded) {
       if (isDemoMode) {
